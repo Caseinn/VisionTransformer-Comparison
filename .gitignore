@@ -1,0 +1,34 @@
+# Ignore all Jupyter notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Ignore notebook output cache (if using nbconvert or papermill)
+*.nbconvert.ipynb
+*.nbconvert/
+
+# Ignore temporary notebook copies
+*~.ipynb
+*.ipynb~
+
+# Ignore large notebook data caches (if used with jupyter-cache)
+.jupyter_cache/
+.jupyter/
+
+# If you want to ignore all .ipynb files except specific ones, uncomment below:
+# *.ipynb
+# !notebook_template.ipynb
+# !analysis_example.ipynb
+
+# Python-related ignores (if project also has Python code)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.log
+
+# Virtual environments
+.env/
+.venv/
+venv/
+ENV/
