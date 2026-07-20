@@ -9,7 +9,7 @@ class ModelConfig:
         name: Human-readable model name used in reports and output folders.
         timm_model: Model identifier passed to ``timm.create_model``.
         pretrained_source: Dataset or checkpoint family used for pretrained weights.
-        checkpoint_name: File name used when saving the best fine-tuned weights.
+        checkpoint_name: File name used when saving the best trained weights.
         patch_token_start: Index where image patch tokens begin in the feature tensor.
             Distilled models usually reserve earlier tokens for class/distillation tokens.
         has_attention_maps: Whether the model supports the attention-style patch

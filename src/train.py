@@ -38,7 +38,7 @@ def evaluate_loader(model, loader, criterion, device):
 
 
 def train_model(config, model, train_loader, test_loader, device, num_epochs=20):
-    """Fine-tune a model classification head and save the best checkpoint.
+    """Train a model classification head and save the best checkpoint.
 
     The function trains with cross-entropy loss using label smoothing, AdamW,
     and a cosine annealing learning-rate schedule. Validation accuracy is
