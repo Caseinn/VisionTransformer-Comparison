@@ -3,6 +3,19 @@ from dataclasses import dataclass
 
 @dataclass
 class ModelConfig:
+    """Configuration values for one CIFAR-10 vision transformer experiment.
+
+    Attributes:
+        name: Human-readable model name used in reports and output folders.
+        timm_model: Model identifier passed to ``timm.create_model``.
+        pretrained_source: Dataset or checkpoint family used for pretrained weights.
+        checkpoint_name: File name used when saving the best fine-tuned weights.
+        patch_token_start: Index where image patch tokens begin in the feature tensor.
+            Distilled models usually reserve earlier tokens for class/distillation tokens.
+        has_attention_maps: Whether the model supports the attention-style patch
+            importance visualization used by this project.
+    """
+
     name: str
     timm_model: str
     pretrained_source: str
@@ -12,6 +25,12 @@ class ModelConfig:
 
     @property
     def output_dir(self):
+        """Return the results directory for this model.
+
+        Returns:
+            Relative path under ``results/`` where checkpoints, metrics, and
+            figures for this model are stored.
+        """
         return f"results/{self.name}"
 
 

@@ -5,6 +5,17 @@ import platform
 
 
 def measure_inference_time(model, test_loader, device):
+    """Measure end-to-end inference speed for a model on the test loader.
+
+    The function performs a short warm-up before timing, then reports total
+    elapsed inference time, average latency per image, throughput, and available
+    hardware information.
+
+    Args:
+        model: PyTorch model to benchmark.
+        test_loader: Data loader yielding test batches.
+        device: Torch device where input tensors should be evaluated.
+    """
     model.eval()
     with torch.no_grad():
         for _ in range(10):

@@ -24,6 +24,18 @@ CLASS_NAMES = [
 
 
 def predict(config, model, test_loader, device):
+    """Load a saved checkpoint and predict labels for the CIFAR-10 test set.
+
+    Args:
+        config: Model configuration with checkpoint and output directory values.
+        model: PyTorch model instance matching the saved checkpoint architecture.
+        test_loader: Data loader yielding test ``(images, labels)`` batches.
+        device: Torch device used for checkpoint loading and inference.
+
+    Returns:
+        A tuple containing normalized image tensors as a NumPy array, predicted
+        class indices, and ground-truth class indices.
+    """
     model_path = os.path.join(config.output_dir, config.checkpoint_name)
     model.load_state_dict(torch.load(model_path, map_location=device))
     model.eval()
@@ -46,6 +58,13 @@ def predict(config, model, test_loader, device):
 
 
 def save_predictions_csv(config, all_labels, all_preds):
+    """Save predicted and true CIFAR-10 labels to a CSV file.
+
+    Args:
+        config: Model configuration whose output directory receives the CSV.
+        all_labels: Iterable of integer ground-truth class indices.
+        all_preds: Iterable of integer predicted class indices.
+    """
     df = pd.DataFrame(
         {
             "image_id": list(range(len(all_labels))),
@@ -59,6 +78,15 @@ def save_predictions_csv(config, all_labels, all_preds):
 
 
 def compute_and_print_metrics(all_labels, all_preds):
+    """Compute and print aggregate and per-class classification metrics.
+
+    Args:
+        all_labels: Iterable of integer ground-truth class indices.
+        all_preds: Iterable of integer predicted class indices.
+
+    Returns:
+        Overall accuracy as a float in the range ``[0, 1]``.
+    """
     acc = accuracy_score(all_labels, all_preds)
     prec_macro = precision_score(all_labels, all_preds, average="macro")
     rec_macro = recall_score(all_labels, all_preds, average="macro")

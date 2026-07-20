@@ -22,6 +22,13 @@ CLASS_NAMES = [
 
 
 def plot_learning_curves(history, output_dir):
+    """Plot and save loss and accuracy curves from a training run.
+
+    Args:
+        history: Dictionary containing ``train_loss``, ``val_loss``,
+            ``train_acc``, and ``val_acc`` sequences.
+        output_dir: Directory where ``curves.png`` should be saved.
+    """
     epochs = range(1, len(history["train_loss"]) + 1)
 
     plt.figure(figsize=(12, 4))
@@ -50,6 +57,14 @@ def plot_learning_curves(history, output_dir):
 
 
 def plot_samples(config, all_images, all_labels, all_preds):
+    """Plot a random sample of predictions with true and predicted labels.
+
+    Args:
+        config: Model configuration whose output directory receives the figure.
+        all_images: NumPy array of normalized images in ``C x H x W`` format.
+        all_labels: Array-like ground-truth class indices.
+        all_preds: Array-like predicted class indices.
+    """
     idxs = np.random.choice(len(all_labels), 5, replace=False)
     plt.figure(figsize=(12, 4))
     for i, idx in enumerate(idxs):
@@ -69,6 +84,13 @@ def plot_samples(config, all_images, all_labels, all_preds):
 
 
 def plot_confusion_matrix(config, all_labels, all_preds):
+    """Plot and save a CIFAR-10 confusion matrix heatmap.
+
+    Args:
+        config: Model configuration whose output directory receives the figure.
+        all_labels: Array-like ground-truth class indices.
+        all_preds: Array-like predicted class indices.
+    """
     plt.figure(figsize=(10, 8))
     cm = confusion_matrix(all_labels, all_preds)
     sns.heatmap(
@@ -92,6 +114,19 @@ def plot_confusion_matrix(config, all_labels, all_preds):
 
 
 def plot_attention_maps(config, model, test_dataset, device):
+    """Plot raw images and transformer patch-importance maps.
+
+    The visualization selects a fixed set of CIFAR-10 test images, obtains model
+    features, computes patch-token norms as an importance proxy, upsamples the
+    resulting grid to image resolution, and overlays it on the raw image.
+
+    Args:
+        config: Model configuration containing patch-token offset and output path.
+        model: Vision transformer model with ``forward_features`` and
+            ``forward_head`` methods.
+        test_dataset: Transformed CIFAR-10 test dataset used for model inputs.
+        device: Torch device where the model input should be evaluated.
+    """
     indices = [0, 2, 74, 78, 97]
     mean = torch.tensor([0.485, 0.456, 0.406])
     std = torch.tensor([0.229, 0.224, 0.225])

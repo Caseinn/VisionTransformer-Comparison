@@ -7,6 +7,18 @@ from sklearn.metrics import accuracy_score
 
 
 def evaluate_loader(model, loader, criterion, device):
+    """Evaluate a model over a data loader.
+
+    Args:
+        model: PyTorch model to evaluate.
+        loader: Data loader yielding ``(images, labels)`` batches.
+        criterion: Loss function used to compute average loss.
+        device: Torch device where inputs and labels should be evaluated.
+
+    Returns:
+        A tuple containing average loss, accuracy, predicted class indices, and
+        ground-truth class indices.
+    """
     model.eval()
     all_preds, all_labels = [], []
     total_loss = 0.0
@@ -26,6 +38,25 @@ def evaluate_loader(model, loader, criterion, device):
 
 
 def train_model(config, model, train_loader, test_loader, device, num_epochs=20):
+    """Fine-tune a model classification head and save the best checkpoint.
+
+    The function trains with cross-entropy loss using label smoothing, AdamW,
+    and a cosine annealing learning-rate schedule. Validation accuracy is
+    evaluated at the end of each epoch; whenever it improves, the model state is
+    saved to ``config.output_dir/config.checkpoint_name``.
+
+    Args:
+        config: Model configuration with output directory and checkpoint name.
+        model: PyTorch model to train.
+        train_loader: Data loader for training batches.
+        test_loader: Data loader used for validation after each epoch.
+        device: Torch device where tensors should be moved.
+        num_epochs: Number of full training passes over ``train_loader``.
+
+    Returns:
+        A tuple containing the training history dictionary and the best
+        validation accuracy reached during training.
+    """
     best_val_acc = 0.0
     criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
     optimizer = torch.optim.AdamW(
