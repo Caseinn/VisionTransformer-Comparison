@@ -12,6 +12,14 @@ This repo contains training & evaluation notebooks for several “tiny” transf
 ├─ EVA-02 Tiny/
 ├─ PiT Tiny/
 ├─ data/
+├─ src/                     ← shared Python modules
+│   ├─ config.py            model configs (dataclass + registry)
+│   ├─ data.py              dataset / dataloader
+│   ├─ model.py             model creation, param counting
+│   ├─ train.py             training loop, evaluate_loader
+│   ├─ evaluate.py          prediction, metrics, CSV export
+│   ├─ visualize.py         curves, samples, confusion, attention maps
+│   └─ inference.py         timed inference, hardware detection
 ├─ requirements.txt
 ├─ train_deit_tiny.ipynb   ├─ test_deit_tiny.ipynb
 ├─ train_eva02_tiny.ipynb  ├─ test_eva02_tiny.ipynb
